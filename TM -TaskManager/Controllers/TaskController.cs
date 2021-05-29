@@ -5,28 +5,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TM__TaskManager.Models;
+using TM__TaskManager.Repositories;
 
 namespace TM__TaskManager.Controllers
 {
     public class TaskController : Controller
     {
-        private static IList<TaskModel> tasks = new List<TaskModel>()
-    {
-         new TaskModel(){ TaskID = 1, TaskName= " Wizyta u lekarza",Description = " Sróda godzina 15:00" },
-         new TaskModel(){ TaskID = 2, TaskName= " Siłownia",Description = " Sróda godzina 16:00" }
-    };
+        private readonly ITaskRepository _taskRepository;
+
+        public TaskController(ITaskRepository taskRepository)
+        {
+            _taskRepository = taskRepository;
+        }
 
 
         // GET: TaskController
         public ActionResult Index()
         {
-            return View(tasks);
+            return View(_taskRepository.GetAllActive());
         }
 
         // GET: TaskController/Details/5
         public ActionResult Details(int id)
         {
-            return View(tasks.FirstOrDefault(x => x.TaskID == id));
+            return View(_taskRepository.Get(id));
         }
 
         // GET: TaskController/Create
@@ -40,8 +42,7 @@ namespace TM__TaskManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(TaskModel taskModel)
         {
-            taskModel.TaskID = tasks.Count + 1;
-            tasks.Add(taskModel);
+            _taskRepository.Add(taskModel);
 
             return RedirectToAction(nameof(Index));
 
@@ -50,7 +51,7 @@ namespace TM__TaskManager.Controllers
         // GET: TaskController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(tasks.FirstOrDefault(x => x.TaskID == id));
+            return View(_taskRepository.Get(id));
         }
 
         // POST: TaskController/Edit/5
@@ -58,9 +59,7 @@ namespace TM__TaskManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, TaskModel taskModel)
         {
-            TaskModel task = tasks.FirstOrDefault(x => x.TaskID == id);
-            task.TaskName = taskModel.TaskName;
-            task.Description = taskModel.Description;
+            _taskRepository.Update(id, taskModel);
             return RedirectToAction(nameof(Index));
 
         }
@@ -68,7 +67,7 @@ namespace TM__TaskManager.Controllers
         // GET: TaskController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(tasks.FirstOrDefault(x => x.TaskID == id));
+            return View(_taskRepository.Get(id));
         }
 
         // POST: TaskController/Delete/5
@@ -76,8 +75,7 @@ namespace TM__TaskManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, TaskModel taskModel)
         {
-            TaskModel task = tasks.FirstOrDefault(x => x.TaskID == id);
-            tasks.Remove(task);
+            _taskRepository.Delete(id);
             return RedirectToAction(nameof(Index));
 
 

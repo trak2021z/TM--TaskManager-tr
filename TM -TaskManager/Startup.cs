@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TM__TaskManager.Data;
+using TM__TaskManager.Repositories;
+using TM__TaskManager.Models;
 
 namespace TM__TaskManager
 {
@@ -35,6 +37,8 @@ namespace TM__TaskManager
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,7 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TM__TaskManager.Models
-{
+{   
+    [Table("Tasks")]
     public class TaskModel
     {
 
