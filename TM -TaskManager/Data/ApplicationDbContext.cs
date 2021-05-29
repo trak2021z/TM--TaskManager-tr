@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TM__TaskManager.Models;
 
 namespace TM__TaskManager.Data
 {
@@ -12,5 +13,8 @@ namespace TM__TaskManager.Data
             : base(options)
         {
         }
+        public DbSet<TaskModel> Tasks { get; set; }
+        public DbSet<TaskUser> TaskUsers { get; set; }
+
     }
 }
