@@ -21,9 +21,9 @@ namespace TM__TaskManager.Repositories
             => _context.Tasks.SingleOrDefault(x => x.TaskID == taskId);
 
 
-        public IQueryable<TaskModel> GetAllActive()
+        public IEnumerable<TaskModel> GetAllActive()
         {
-            return _context.Tasks;
+            return _context.Tasks.ToList();
         }
 
         public void Add(TaskModel task)
