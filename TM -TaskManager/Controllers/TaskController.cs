@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,29 +14,33 @@ namespace TM__TaskManager.Controllers
     public class TaskController : Controller
     {
         private readonly ITaskRepository _taskRepository;
-
-        public TaskController(ITaskRepository taskRepository)
+        private UserManager<IdentityUser> userManager;
+        public TaskController(ITaskRepository taskRepository, UserManager<IdentityUser> usrMgr)
         {
+            this.userManager = usrMgr;
             _taskRepository = taskRepository;
         }
 
 
         // GET: TaskController
+        [Authorize]
         public ActionResult Index()
         {
-            return View(_taskRepository.GetAllActive());
+            return View(_taskRepository.GetUserActiveTasks(userManager.GetUserId(User)));
         }
 
         // GET: TaskController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View(_taskRepository.Get(id));
         }
 
         // GET: TaskController/Create
+        [Authorize]
         public ActionResult Create()
         {
-            return View(new TaskModel()) ;
+            return View(new TaskModel());
         }
 
         // POST: TaskController/Create
@@ -42,8 +48,10 @@ namespace TM__TaskManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(TaskModel taskModel)
         {
+            
+            taskModel.UserID = userManager.GetUserId(User);
             _taskRepository.Add(taskModel);
-
+            
             return RedirectToAction(nameof(Index));
 
         }

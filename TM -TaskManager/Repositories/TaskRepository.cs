@@ -52,5 +52,11 @@ namespace TM__TaskManager.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public IEnumerable<TaskModel> GetUserActiveTasks(string userID)
+        {
+            return _context.Tasks.Where(t => t.UserID == userID);
+        }
     }
 }
+ 

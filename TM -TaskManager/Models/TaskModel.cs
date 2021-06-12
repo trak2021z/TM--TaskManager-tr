@@ -21,5 +21,7 @@ namespace TM__TaskManager.Models
         [MaxLength(2000)]
         public string Description { get; set; }
 
+        public string UserID { get; set; }
+
     }
 }

@@ -11,9 +11,9 @@ namespace TM__TaskManager.Repositories
     {
         TaskModel Get(int taskId);
         IEnumerable<TaskModel> GetAllActive();
-
+        IEnumerable<TaskModel> GetUserActiveTasks(string userID);
         void Add(TaskModel task);
         void Update(int taskId, TaskModel task);
-        void Delete(int taskId);
+        void Delete(int taskId); 
     }
 }
