@@ -4,17 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="display-4">Menedżer zadań</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Dodaj zadanie</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskID)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.TaskName)
             </th>
@@ -25,17 +23,15 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskID)
-            </td>
-            <td>
+
+            <td style="width:65%">
                 @Html.DisplayFor(modelItem => item.TaskName)
             </td>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.TaskID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.TaskID  })
+            <td style="width:35%">
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.TaskID }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.TaskID },new { @class = "btn btn-info" })
+                @Html.ActionLink("Usuń", "Delete", new { id = item.TaskID }, new { @class = "btn btn-danger" })
             </td>
         </tr>
 }

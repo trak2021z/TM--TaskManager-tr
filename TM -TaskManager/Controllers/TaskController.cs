@@ -20,40 +20,32 @@ namespace TM__TaskManager.Controllers
             this.userManager = usrMgr;
             _taskRepository = taskRepository;
         }
-
-
         // GET: TaskController
         [Authorize]
         public ActionResult Index()
         {
             return View(_taskRepository.GetUserActiveTasks(userManager.GetUserId(User)));
         }
-
         // GET: TaskController/Details/5
         [Authorize]
         public ActionResult Details(int id)
         {
             return View(_taskRepository.Get(id));
         }
-
         // GET: TaskController/Create
         [Authorize]
         public ActionResult Create()
         {
             return View(new TaskModel());
         }
-
         // POST: TaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(TaskModel taskModel)
-        {
-            
+        {   
             taskModel.UserID = userManager.GetUserId(User);
             _taskRepository.Add(taskModel);
-            
             return RedirectToAction(nameof(Index));
-
         }
 
         // GET: TaskController/Edit/5
